@@ -18,8 +18,10 @@ class GroqProvider(BaseProvider):
 
     def __init__(self):
         super().__init__()
-        # Groq client will automatically pick up GROQ_API_KEY from environment variables
-        self.client = AsyncGroq(api_key=settings.GROQ_API_KEY)
+        # Initialize with a dummy key if missing to prevent Uvicorn from crashing on boot.
+        # It will fail gracefully during execution and fallback to Gemini.
+        api_key = settings.GROQ_API_KEY or "missing_key"
+        self.client = AsyncGroq(api_key=api_key)
 
     async def generate(self, prompt: Prompt, model_config: ModelConfig, gen_config: GenerationConfig, safety_config: SafetyConfig, retry_config: RetryConfig, timeout_config: TimeoutConfig) -> AIResponse:
         start_time = time.time()
