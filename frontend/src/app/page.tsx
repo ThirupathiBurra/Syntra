@@ -84,6 +84,7 @@ export default function MissionControl() {
       return;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const SpeechRecognition = (window as any).webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
     
@@ -94,6 +95,7 @@ export default function MissionControl() {
       setIsListening(true);
     };
     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     recognition.onresult = (event: any) => {
       let interimTranscript = '';
       let finalTranscript = '';
@@ -109,6 +111,7 @@ export default function MissionControl() {
       setCommand(finalTranscript || interimTranscript);
     };
     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     recognition.onerror = (event: any) => {
       console.error(event.error);
       setIsListening(false);

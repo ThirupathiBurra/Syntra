@@ -28,11 +28,13 @@ export default function DemoWorkflow() {
 
     const unsubscribeStarted = eventStream.on("WorkflowStarted", (data) => {
       console.log("Real-time Event: WorkflowStarted", data);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       addLog(`Mission commenced: ${(data as any)?.session_id || 'new session'}`, "success");
     });
 
     const unsubscribeCompleted = eventStream.on("NodeCompleted", (data) => {
       console.log("Real-time Event: NodeCompleted", data);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const node = (data as any)?.node_id || 'Task';
       addLog(`Agent completed ${node.replace('_', ' ')}. Data securely routed.`, "success");
     });
@@ -130,7 +132,7 @@ export default function DemoWorkflow() {
                     const cleanJson = content.replace(/```json/g, '').replace(/```/g, '').trim();
                     const obj = JSON.parse(cleanJson);
                     formattedContent = JSON.stringify(obj, null, 2);
-                  } catch(e) {
+                  } catch {
                     // Fallback to raw if parsing fails
                   }
                 }
