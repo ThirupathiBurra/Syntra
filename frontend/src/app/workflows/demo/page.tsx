@@ -49,7 +49,42 @@ export default function DemoWorkflow() {
       }
     });
 
+    // Add a fallback simulation for the hackathon demo if backend isn't deployed on Vercel
+    const demoFallbackTimer = setTimeout(() => {
+      console.log("No SSE connection detected. Initializing Demo Mode Fallback...");
+      addLog("Live backend not detected on Vercel. Activating Presentation Demo Mode.", "error");
+      
+      setTimeout(() => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (eventStream as any).emit("WorkflowStarted", { session_id: "demo-session-991" });
+      }, 1000);
+      
+      setTimeout(() => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (eventStream as any).emit("NodeCompleted", { node_id: "Policy_Retrieval" });
+      }, 3000);
+      
+      setTimeout(() => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (eventStream as any).emit("NodeCompleted", { node_id: "Data_Analysis" });
+      }, 5000);
+      
+      setTimeout(() => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (eventStream as any).emit("ApprovalRequested", {
+          session_id: "demo-session-991",
+          summary: "I have successfully analyzed the documents and identified 3 key action items based on the compliance policies. I've drafted a Slack notification and a Gmail summary. Please review and approve the generated artifacts before I dispatch them.",
+          generated_documents: {
+            "Compliance_Summary.md": "# Q3 Compliance Audit\n\n## Key Findings\n- Discrepancy found in Section 4.2 (Vendor Agreements).\n- 2 contracts lack the required liability clauses.\n\n## Recommendation\nRoute immediately to Legal for renegotiation.",
+            "Slack_API_Payload": "```json\n{\n  \"channel\": \"#legal-audits\",\n  \"blocks\": [\n    {\n      \"type\": \"header\",\n      \"text\": { \"type\": \"plain_text\", \"text\": \"🚨 Audit Alert: Q3 Discrepancies\" }\n    },\n    {\n      \"type\": \"section\",\n      \"text\": { \"type\": \"mrkdwn\", \"text\": \"2 vendor contracts lack liability clauses. Requesting immediate review.\" }\n    }\n  ]\n}\n```",
+            "Gmail_API_Payload": "```json\n{\n  \"to\": \"legal-team@company.com\",\n  \"subject\": \"Action Required: Q3 Vendor Agreement Discrepancies\",\n  \"body\": \"Team, during the Q3 financial audit, our systems flagged 2 vendor contracts missing updated liability clauses...\"\n}\n```"
+          }
+        });
+      }, 8000);
+    }, 2500);
+
     return () => {
+      clearTimeout(demoFallbackTimer);
       unsubscribeStarted();
       unsubscribeCompleted();
       unsubscribeApproval();

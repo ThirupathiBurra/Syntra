@@ -2,15 +2,18 @@
 
 import { CheckCircle2, Clock, PlayCircle, FileText } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 export function ExecutionTimeline() {
+  const [baseTime] = useState(new Date());
+
   const events = [
     {
       id: 1,
       type: "completed",
       title: "Workflow Initialized",
-      description: "Mission: Audit Q3 financial reports",
-      time: "10:00:00 AM",
+      description: "Mission: Execute requested business logic",
+      time: new Date(baseTime.getTime() + 0).toLocaleTimeString([], { hour12: false, hour: '2-digit', minute:'2-digit', second:'2-digit' }),
       icon: PlayCircle,
       color: "text-indigo-500",
       bg: "bg-indigo-500/10",
@@ -20,8 +23,8 @@ export function ExecutionTimeline() {
       id: 2,
       type: "completed",
       title: "Plan Generated",
-      description: "Conductor built a 5-step execution graph",
-      time: "10:00:05 AM",
+      description: "Conductor built a multi-step execution graph",
+      time: new Date(baseTime.getTime() + 5000).toLocaleTimeString([], { hour12: false, hour: '2-digit', minute:'2-digit', second:'2-digit' }),
       icon: CheckCircle2,
       color: "text-emerald-500",
       bg: "bg-emerald-500/10",
@@ -31,8 +34,8 @@ export function ExecutionTimeline() {
       id: 3,
       type: "completed",
       title: "Enterprise Knowledge Retrieved",
-      description: "Found 12 relevant policy chunks from Knowledge Base",
-      time: "10:00:15 AM",
+      description: "Found relevant policy chunks from Knowledge Base",
+      time: new Date(baseTime.getTime() + 15000).toLocaleTimeString([], { hour12: false, hour: '2-digit', minute:'2-digit', second:'2-digit' }),
       icon: FileText,
       color: "text-cyan-500",
       bg: "bg-cyan-500/10",
@@ -42,9 +45,9 @@ export function ExecutionTimeline() {
     {
       id: 4,
       type: "in-progress",
-      title: "Data Analysis Agent Active",
-      description: "Cross-referencing Q3 numbers against compliance policy",
-      time: "10:00:18 AM",
+      title: "Agent Active",
+      description: "Cross-referencing parameters against compliance policy",
+      time: new Date(baseTime.getTime() + 18000).toLocaleTimeString([], { hour12: false, hour: '2-digit', minute:'2-digit', second:'2-digit' }),
       icon: Clock,
       color: "text-amber-500",
       bg: "bg-amber-500/10",
