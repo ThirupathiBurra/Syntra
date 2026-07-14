@@ -1,21 +1,28 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { LayoutDashboard, Compass, Layers, CheckSquare, Settings, Activity, PanelLeftClose, PanelLeftOpen, BarChart2 } from "lucide-react";
+import { LayoutDashboard, Compass, Database, CheckSquare, Settings, Activity, PanelLeftClose, PanelLeftOpen, BarChart2, Workflow } from "lucide-react";
 
 export function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const pathname = usePathname();
 
   const navItems = [
     { name: "Mission Control", href: "/", icon: LayoutDashboard },
     { name: "Analytics", href: "/analytics", icon: BarChart2 },
-    { name: "Workflow Studio", href: "/studio", icon: Layers },
-    { name: "Knowledge Base", href: "/knowledge", icon: Layers },
+    { name: "Workflow Studio", href: "/studio", icon: Workflow },
+    { name: "Knowledge Base", href: "/knowledge", icon: Database },
     { name: "Active Workflows", href: "/workflows", icon: Activity },
     { name: "Approvals", href: "/approvals", icon: CheckSquare },
     { name: "Settings", href: "/settings", icon: Settings },
   ];
+
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href);
+  };
 
   return (
     <aside className={`${isCollapsed ? 'w-16' : 'w-64'} border-r border-zinc-200 dark:border-zinc-800 bg-white/50 dark:bg-zinc-950/50 backdrop-blur-xl hidden md:flex flex-col h-full transition-all duration-300 relative group`}>
@@ -37,7 +44,11 @@ export function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
-              className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 hover:bg-zinc-100 dark:hover:bg-zinc-800/50 transition-colors"
+              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                isActive(item.href)
+                  ? "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20"
+                  : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 hover:bg-zinc-100 dark:hover:bg-zinc-800/50"
+              }`}
               title={item.name}
             >
               <item.icon className="mr-3 h-5 w-5 flex-shrink-0" aria-hidden="true" />
