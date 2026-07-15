@@ -41,7 +41,7 @@ const fetchDocuments = async (): Promise<Document[]> => {
         owner: "Finance Team",
         size: "2.4 MB",
         status: "indexed",
-        created_at: new Date(Date.now() - 86400000).toISOString()
+        created_at: "2025-10-14T10:00:00.000Z"
       },
       {
         document_id: "demo-2",
@@ -50,7 +50,7 @@ const fetchDocuments = async (): Promise<Document[]> => {
         owner: "HR Dept",
         size: "145 KB",
         status: "indexed",
-        created_at: new Date(Date.now() - 172800000).toISOString()
+        created_at: "2025-10-13T10:00:00.000Z"
       }
     ];
 
@@ -218,7 +218,7 @@ export default function KnowledgeBasePage() {
                     </td>
                     <td className="px-6 py-4 hidden md:table-cell text-zinc-400">{doc.owner}</td>
                     <td className="px-6 py-4 hidden lg:table-cell text-zinc-500">{doc.size}</td>
-                    <td className="px-6 py-4 text-zinc-500">{new Date(doc.created_at).toLocaleString()}</td>
+                    <td className="px-6 py-4 text-zinc-500" suppressHydrationWarning>{new Date(doc.created_at).toLocaleString()}</td>
                     <td className="px-6 py-4 text-right">
                       <button className="p-1 text-zinc-600 hover:text-zinc-300 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                         <MoreVertical className="h-4 w-4" />
